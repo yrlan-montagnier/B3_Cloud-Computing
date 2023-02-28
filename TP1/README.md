@@ -25,6 +25,14 @@ Dans ce TP on va commencer à se f**amiliariser avec un environnement Vagrant + 
     - [A. NGINX](#a-nginx)
     - [B. MariaDB](#b-mariadb)
 - [III. Utilisation et vérifications](#iii-utilisation-et-vérifications)
+  - [1. Déploiement des VM avec Vagrant](#1-déploiement-des-vm-avec-vagrant)
+  - [2. Déploiement du serveur web avec Ansible](#2-déploiement-du-serveur-web-avec-ansible)
+    - [Vérification](#vérification)
+  - [3. Déploiement de MariaDB avec Ansible](#3-déploiement-de-mariadb-avec-ansible)
+    - [Vérifier que la base de données tp1_db a été créé](#vérifier-que-la-base-de-données-tp1_db-a-été-créé)
+	- [Se connecter à la VM2 et vérifier que notre utilisateur a été créé :](#se-connecter-à-la-vm2-et-vérifier-que-notre-utilisateur-a-été-créé-)
+	- [Vérifier que l'utilisateur "tp1_dbuser" possède tous les privilèges d'administration :](#vérifier-que-lutilisateur-tp1_dbuser-possède-tous-les-privilèges-dadministration-)
+	- [Vérifier que l'utilisateur "root" possède tous les droits sur la base de données "tp1_db" :](#vérifier-que-lutilisateur-root-possède-tous-les-droits-sur-la-base-de-données-tp1_db-)
 
 # 0. Git
 
