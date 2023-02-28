@@ -1,0 +1,63 @@
+---
+- name: Déploiement de MariaDB
+  hosts: db
+  become: true
+  
+  tasks:
+  - name: Installer MariaDB
+    package:
+      name: mariadb-server
+      state: present
+      
+  - name: Installer python3
+    dnf:
+      name: python3
+      state: present  
+    
+  - name: Installer pip3
+    package:
+        name: python3-pip
+        state: present
+
+  - name: Installer le module PyMySQL
+    pip:
+      name: pymysql
+      state: present
+
+  - name: Lancer le service MariaDB et le mettre en démarrage automatique
+    service:
+      name: mariadb
+      enabled: true
+      state: started
+
+  - name: Configurer l'utilisateur root avec les informations de connexion par défaut
+    mysql_user:
+      name: root
+      host: localhost
+      password: root
+      login_unix_socket: /var/lib/mysql/mysql.sock
+      login_password: ''
+      check_implicit_admin: true
+      priv: '*.*:ALL,GRANT'
+      state: present
+
+  - name: Créer la base de données "tp1_db"
+    mysql_db:
+      name: tp1_db
+      state: present
+      login_user: root
+      login_password: root
+      
+  - name: Créer l'utilisateur SQL "tp1_dbuser"
+    mysql_user:
+      name: tp1_dbuser
+      password: tp1_password
+      priv: "tp1_db.*:ALL"
+      state: present
+      login_user: root
+      login_password: root
+
+  - name: Redémarrer MariaDB
+    service:
+      name: mariadb
+      state: restarted
