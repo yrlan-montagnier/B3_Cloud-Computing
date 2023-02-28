@@ -424,7 +424,7 @@ Enter password: root
 +-------------+
 ```
 
-### Vérifier que l'utilisateur "tp1_dbuser" possède tous les privilèges d'administration :
+### Vérifier que l'utilisateur "root" possède tous les privilèges d'administration :
 ```
 [ansible_user@vm2 ~]$ mysql -u root -p -e "SHOW GRANTS FOR 'root'@'localhost';"
 Enter password: root
@@ -436,7 +436,7 @@ Enter password: root
 +----------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### Vérifier que l'utilisateur "root" possède tous les droits sur la base de données "tp1_db" :
+### Vérifier que l'utilisateur "tp1_dbuser" possède tous les droits sur la base de données "tp1_db" :
 ```
 [ansible_user@vm2 ~]$ mysql -u root -p -e "SHOW GRANTS FOR 'tp1_dbuser'@'localhost';"
 Enter password: root
