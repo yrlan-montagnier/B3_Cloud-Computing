@@ -1,0 +1,20 @@
+---
+- name: Install nginx
+  hosts: tp1
+  become: true
+
+  tasks:
+  - name: Install nginx
+    dnf:
+      name: nginx
+      state: present
+
+  - name: Insert Index Page
+    template:
+      src: ../files/index.html.j2
+      dest: /usr/share/nginx/html/index.html
+
+  - name: Start NGiNX
+    service:
+      name: nginx
+      state: started

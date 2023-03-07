@@ -1,0 +1,7 @@
+Host 10.1.1.*
+  User yrlan
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentitiesOnly yes
+  LogLevel FATAL
