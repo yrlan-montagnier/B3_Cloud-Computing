@@ -1,0 +1,56 @@
+---
+- name: Déployer un serveur NGINX
+  hosts: web
+  become: true
+  
+  tasks:
+  - name: Installer NGINX
+    dnf:
+      name: nginx
+      state: present
+
+  - name: Créer le dossier /var/www/tp1_site pour le site web
+    file:
+      path: /var/www/tp1_site
+      state: directory
+      owner: nginx
+      group: nginx
+      mode: '0755'
+
+  - name: Insérer la page index à partir de notre fichier index.html.j2 dans /var/www/tp1_site/index.html
+    template:
+      src: ../files/index.html.j2
+      dest: /var/www/tp1_site/index.html
+    
+  - name: Copier le certificat que l'on a généré dans /etc/pki/tls/certs
+    copy:
+      src: ../files/certificats/tp1_site.crt
+      dest: /etc/pki/tls/certs/tp1_site.crt
+      mode: '0644'
+    
+  - name: Copier la clé que l'on a généré dans /etc/pki/tls/private
+    copy:
+      src: ../files/certificats/tp1_site.key
+      dest: /etc/pki/tls/private/tp1_site.key
+      mode: '0400'
+
+  - name: Configurer NGINX pour HTTPS, en copiant notre fichier de conf nginx dans /etc/nginx/conf.d
+    copy:
+      src: ../files/nginx-https.conf
+      dest: /etc/nginx/conf.d/nginx-https.conf
+
+  - name: Ouvrir le port 443 HTTPS
+    firewalld:
+      port: 443/tcp
+      permanent: yes
+      state: enabled
+  
+  - name: Redémarrer NGINX
+    service:
+      name: nginx
+      state: restarted
+      
+  - name: Redémarrer FirewallD
+    service:
+      name: firewalld
+      state: restarted

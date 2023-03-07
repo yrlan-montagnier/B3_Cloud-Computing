@@ -24,6 +24,15 @@ Dans ce TP on va commencer à se f**amiliariser avec un environnement Vagrant + 
   - [3. Création de nouveaux playbooks](#3-création-de-nouveaux-playbooks)
     - [A. NGINX](#a-nginx)
     - [B. MariaDB](#b-mariadb)
+- [III. Utilisation et vérifications](#iii-utilisation-et-vérifications)
+  - [1. Déploiement des VM avec Vagrant](#1-déploiement-des-vm-avec-vagrant)
+  - [2. Déploiement du serveur web avec Ansible](#2-déploiement-du-serveur-web-avec-ansible)
+    - [Vérification](#vérification)
+  - [3. Déploiement de MariaDB avec Ansible](#3-déploiement-de-mariadb-avec-ansible)
+    - [Vérifier que la base de données tp1_db a été créé](#vérifier-que-la-base-de-données-tp1_db-a-été-créé)
+	- [Se connecter à la VM2 et vérifier que notre utilisateur a été créé :](#se-connecter-à-la-vm2-et-vérifier-que-notre-utilisateur-a-été-créé-)
+	- [Vérifier que l'utilisateur "tp1_dbuser" possède tous les privilèges d'administration :](#vérifier-que-lutilisateur-tp1_dbuser-possède-tous-les-privilèges-dadministration-)
+	- [Vérifier que l'utilisateur "root" possède tous les droits sur la base de données "tp1_db" :](#vérifier-que-lutilisateur-root-possède-tous-les-droits-sur-la-base-de-données-tp1_db-)
 
 # 0. Git
 
@@ -317,7 +326,7 @@ $ ansible-playbook -i hosts.ini first.yml
 ➜ **Créez un *playbook* `nginx.yml`**
 
 - déploie un serveur NGINX
-- génère un certificat et une clé
+- générer un certificat et une clé au préalable
   - le certificat doit être déposé dans `/etc/pki/tls/certs`
   - la clé doit être déposée dans `/etc/pki/tls/private`
 - créer une racine web et un index
@@ -353,3 +362,88 @@ $ ansible-playbook -i hosts.ini first.yml
 ➜ **Lancez votre playbook sur le groupe `db`**
 
 ➜ **Vérifiez en vous connectant à la base que votre conf a pris effet**
+
+
+# III. Utilisation et vérifications
+
+## 1. Déploiement des VM avec Vagrant
+Se rendre dans le dossier "TP1/Vagrant" : ~~Cloud-Computing\TP1\Vagrant
+```
+cd ~~Cloud-Computing\TP1\Vagrant
+vagrant up
+```
+
+## 2. Déploiement du serveur web avec Ansible
+Se rendre dans le dossier "TP1/Ansible" : ~~Cloud-Computing\TP1\Ansible et éxecuter le playbook `nginx.yml`
+```
+cd ~~Cloud-Computing\TP1\Ansible
+ansible-playbook -i hosts.ini playbooks/nginx.yml
+```
+
+### Vérification
+Depuis le navigateur, se rendre sur https://10.1.1.11
+
+On peut voir que le serveur web est bien en route :
+![nginx_verif](img/nginx_verif.png)
+
+## 3. Déploiement de MariaDB avec Ansible
+Se rendre dans le dossier "TP1/Ansible" : ~~Cloud-Computing\TP1\Ansible et éxecuter le playbook `mariadb.yml`
+```
+cd ~~Cloud-Computing\TP1\Ansible
+ansible-playbook -i hosts.ini playbooks/mariadb.yml
+```
+
+### Vérifier que la base de données tp1_db a été créé
+```
+PS Microsoft.PowerShell.Core\FileSystem::\\wsl.localhost\Debian\home\yrlan\Cloud-Computing\TP1\Vagrant> ssh ansible_user@10.1.1.12
+Last login: Tue Feb 28 22:42:36 2023 from 10.1.1.1
+
+[ansible_user@vm2 ~]$ mysql -u root -p -e "SHOW DATABASES;"
+Enter password: root
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| tp1_db             |
++--------------------+
+```
+
+### Se connecter à la VM2 et vérifier que notre utilisateur a été créé :
+```
+[ansible_user@vm2 ~]$ mysql -u root -p -e "SELECT User FROM mysql.user;"
+Enter password: root
++-------------+
+| User        |
++-------------+
+| mariadb.sys |
+| mysql       |
+| root        |
+| tp1_dbuser  |
++-------------+
+```
+
+### Vérifier que l'utilisateur "root" possède tous les privilèges d'administration :
+```
+[ansible_user@vm2 ~]$ mysql -u root -p -e "SHOW GRANTS FOR 'root'@'localhost';"
+Enter password: root
++----------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for root@localhost                                                                                                              |
++----------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT ALL PRIVILEGES ON *.* TO `root`@`localhost` IDENTIFIED BY PASSWORD '*81F5E21E35407D884A6CD4A731AEBFB6AF209E1B' WITH GRANT OPTION |
+| GRANT PROXY ON ''@'%' TO 'root'@'localhost' WITH GRANT OPTION                                                                          |
++----------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### Vérifier que l'utilisateur "tp1_dbuser" possède tous les droits sur la base de données "tp1_db" :
+```
+[ansible_user@vm2 ~]$ mysql -u root -p -e "SHOW GRANTS FOR 'tp1_dbuser'@'localhost';"
+Enter password: root
++-------------------------------------------------------------------------------------------------------------------+
+| Grants for tp1_dbuser@localhost                                                                                   |
++-------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `tp1_dbuser`@`localhost` IDENTIFIED BY PASSWORD '*57066BF0A4AA62B00DDAF14B3278D542131128BA' |
+| GRANT ALL PRIVILEGES ON `tp1_db`.* TO `tp1_dbuser`@`localhost`                                                    |
++-------------------------------------------------------------------------------------------------------------------+
+```
