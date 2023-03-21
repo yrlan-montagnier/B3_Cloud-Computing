@@ -1,0 +1,19 @@
+- hosts: all
+  become: true
+  roles:
+    - common
+
+- hosts: webapp
+  become: true
+  roles:
+    - webapp
+
+- hosts: rproxy
+  become: true
+  roles:
+    - rproxy
+
+# - hosts: ynov
+#   become: true
+#   roles:
+#     - nginx

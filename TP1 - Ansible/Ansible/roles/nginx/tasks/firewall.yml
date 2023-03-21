@@ -1,0 +1,16 @@
+- name: Autorisation du trafic HTTP à travers le firewall
+  firewalld:
+    service: http
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Ouverture des ports pour le virtual host dans le firewall
+  firewalld:
+    port: "{{ item.nginx_port }}/tcp"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  with_items: "{{ nginx_vhosts }}"
+  when: nginx_vhosts is defined
+  notify: Restart firewalld # Redémarre le service firewalld si une règle de pare-feu est modifiée

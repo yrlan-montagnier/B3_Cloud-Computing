@@ -1,0 +1,4 @@
+- name: Installation d'NGINX # Uniquement l'installation de nginx
+  dnf:
+    name: nginx
+    state: latest

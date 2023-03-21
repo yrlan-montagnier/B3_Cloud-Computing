@@ -1,0 +1,9 @@
+server {
+        listen {{ item.nginx_port }} ;
+        server_name {{ item.nginx_servername }};
+
+        location / {
+            root {{ item.nginx_webroot }};
+            index index.html;
+        }
+}

@@ -1,0 +1,9 @@
+- name: Install vim
+  hosts: ynov
+  become: true
+
+  tasks:
+  - name: Install vim
+    dnf:
+      name: vim
+      state: present

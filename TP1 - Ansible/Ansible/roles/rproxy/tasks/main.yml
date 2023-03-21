@@ -1,0 +1,16 @@
+---
+# Déploiement du serveur web
+- name: Installation d'NGINX
+  import_tasks: install.yml
+
+- name: Configuration d'NGINX
+  import_tasks: config.yml
+
+- name: Déploiement des VirtualHosts
+  import_tasks: vhosts.yml
+
+- name: Ouverture des ports pour NGINX dans le firewall
+  import_tasks: firewall.yml
+
+# - name: Déploiement de l'application web
+  # Ajoutez ici les tâches nécessaires pour déployer l'application web légère

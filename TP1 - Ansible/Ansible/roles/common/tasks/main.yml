@@ -1,0 +1,6 @@
+# On importe les deux autres fichiers qui contiennent des tasks à effectuer dans le main
+- name: Installation des paquets par défaut
+  import_tasks: packages.yml
+
+- name: Création des utilisateurs
+  import_tasks: users.yml

@@ -1,0 +1,41 @@
+# Création du groupe admin s'il n'existe pas
+- name: Création du groupe admin
+  group:
+    name: admin
+    state: present
+
+# Ajouter dans le fichier "/etc/sudoers" le groupe "admin" à l'utilisation de sudo
+- name: Autoriser l'utilisation de sudo pour les utilisateurs membres du groupe "admin"
+  become: true
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%admin'
+    line: '%admin ALL=(ALL) NOPASSWD:ALL'
+
+# Création des utilisateurs, la liste(item) "users" se trouve da  ns group_vars/ynov.yml
+- name: Création des utilisateurs
+  ansible.builtin.user: # Module user de Ansible
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    home: "{{ item.home }}"
+    group: "{{ item.group }}"
+    state: present
+    shell: /bin/bash
+  with_items: "{{ users }}" # ceci permet de boucler sur la liste users définie dans group_vars
+  when: users is defined
+  become: true
+
+# Inclure le fichier public_key.yml
+- name: Inclure la clé publique SSH de l'utilisateur
+  include_vars: public_key.yml
+
+# Ajout de ma clé publique SSH sur la machine cible
+- name: Ajout de ma clé SSH publique dans le fichier "/home/MON_USER/.ssh/authorized_keys"
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ ssh_public_key }}"
+    state: present
+  with_items: "{{ users }}"
+  when: users is defined
+  become: true

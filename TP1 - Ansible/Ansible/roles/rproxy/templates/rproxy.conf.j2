@@ -1,0 +1,14 @@
+upstream my_webapp {
+    server 10.1.1.11:8085;
+    server 10.1.1.12:8085;
+}
+
+server {
+    listen 80 ;
+    server_name mywebapp.com;
+
+    location / {
+        proxy_pass http://my_webapp;
+        proxy_set_header    Host $host;
+    }
+}

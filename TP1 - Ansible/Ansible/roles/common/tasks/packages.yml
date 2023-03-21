@@ -1,0 +1,6 @@
+# Tâche d'installation des packages, il va d'abord chercher dans roles/common/defaults/main.yml puis dans host_vars & group_vars
+- name: Installation des paquets par défaut
+  ansible.builtin.package: # Module packages de Ansible
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ common_packages }}" # Permet de boucler sur la liste "common_packages" définie dans "common/defaults/main.yml" puis dans "host_vars/node1.tp2.cloud.yml"

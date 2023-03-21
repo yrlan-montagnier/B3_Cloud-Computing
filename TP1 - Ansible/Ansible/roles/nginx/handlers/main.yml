@@ -1,0 +1,11 @@
+# Tâche qui redémarre nginx s'il y'a un changement de conf nginx, pour l'appeller, rajouter notify: Restart nginx
+- name: Restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+
+# Tâche qui redémarre le service firewalld s'il y'a une modification des règles, pour l'appeller, rajouter notify: Restart firewalld
+- name: Restart firewalld
+  systemd:
+    name: firewalld
+    state: restarted

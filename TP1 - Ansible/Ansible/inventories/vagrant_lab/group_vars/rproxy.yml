@@ -1,0 +1,14 @@
+nginx_vhosts:
+  - webapp: 
+    nginx_servername: webapp
+    nginx_port: 8085
+    nginx_webroot: /var/www/html/webapp
+    nginx_index_content: "<h1>Ma webapp</h1>"
+
+users:
+  - name: le_nain
+    password: $6$LjWQZXFaUmvkaz2J$YF6FsF5jHRACHuSxvhzrNDgi9u4ypisheOtJbn53f0CID/fHUB7w1g4tpKM11Geoyjazj2TFUMlr8kgNu/JC41
+    home: /home/le_nain
+    group: admin
+    sudo: true
+    ssh_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwM32JCKeM4NyDV/6UX/5ZpVI8wr2PMRWysrYNEyvF/5MeKTzfk3aWmHS/heG5wMRpAC/mhgYLyuCDMlJKHFQZ4fBs8eGmsN2gxQ/W2RM1k1Y3+nzpiQRqOEdss79+wPNl4K+pdNcnnTWwOuk9268IBeiO9nkqsdDBoB3iJBLa0cnyPdJsHpnRuiLP1XoR0GECWjspGi7qD3lqs0Cw05jhB4EYY6N2V5hd1XahYHdh6dMRORp3CI7FZ/LxbzsA9LN5E2elv2VitkL4pS7yKOiupvkF7ybADpcLi4waT55AClrhgoeRgVpG2VVvZkr/BtLt6ZU9uyzoofQdKl21IuZ0FyofdMeU9q6AUwmZuZJwQ6e9D+LvrVNVu2Bm3OU1P1Q/VnJcRK9/92SyMjoh7oOOJhpxnzpDQ+8BmV4tQXxLklYZHdgRA05B7aH6NQBa6CzrP5sDreQAIiiWsHELcfyVPSa9bnhf7XMBkrQwzyeE+2Rv/X4Pb5Ox1zyUs0+O92zVC6z9i4pKQXpoHc27VhNK67NvIHKWN+bmgCA9oW5H5F6LKb48S05cLAXfkwURLZMN61JO8qNNok9k3y2Hl63isTeM4CASVpCKnIaEB2kdGW2ykUpxNFV3eCT3of8jTNRtq3LSi562KaOOJNWP1Uogw5NJtbZwCAab5jF2+EUHQQ== yrlan@MSI-9SEXR"

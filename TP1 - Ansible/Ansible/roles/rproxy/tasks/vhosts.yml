@@ -1,0 +1,24 @@
+# Permissions : 755 pour les dossiers, 644 pour les fichiers de conf nginx
+# Owner/Group : nginx:nginx
+
+# Création du répertoire pour le reverse proxy dans "/var/www/html/"
+- name: Création de la racine web (webroot)
+  file:
+    path: "{{ item.nginx_webroot }}"
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: '0755'
+  with_items: "{{ nginx_vhosts }}"
+  when: nginx_vhosts is defined
+
+# Déploiement du fichier de conf pour le vhost dans "/etc/nginx/conf.d/"
+- name: Création des hôtes virtuels NGINX
+  template:
+    src: rproxy.conf.j2
+    dest: /etc/nginx/conf.d/{{ item.nginx_servername }}.conf
+    owner: nginx
+    group: nginx
+    mode: '0644'
+  with_items: "{{ nginx_vhosts }}" # A partir de la liste dans "group_vars/ynov.yml"
+  notify: Restart nginx # Redémarre nginx car modification de la configuration d'Nginx

@@ -1,0 +1,36 @@
+# Permissions : 755 pour les dossiers, 644 pour les fichiers de conf nginx
+# Owner/Group : nginx:nginx
+
+# Création du répertoire pour chaque site dans "/var/www/html/"
+- name: Création de la racine web (webroot)
+  file:
+    path: "{{ item.nginx_webroot }}"
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: '0755'
+  with_items: "{{ nginx_vhosts }}"
+  when: nginx_vhosts is defined
+
+# Création d'un fichier index pour chaque site dans "/var/www/html/MONSITE"
+- name: Creation du fichier "index.html"
+  copy:
+    dest: "{{ item.nginx_webroot }}/index.html"
+    content: "{{ item.nginx_index_content }}"
+    owner: nginx
+    group: nginx
+    mode: '0644'
+  with_items: "{{ nginx_vhosts }}"
+  when: nginx_vhosts is defined
+
+# Création des fichiers de conf des vhosts dans "/etc/nginx/conf.d/"
+- name: Création des hôtes virtuels NGINX
+  template:
+    src: vhost.conf.j2
+    dest: /etc/nginx/conf.d/{{ item.nginx_servername }}.conf
+    owner: nginx
+    group: nginx
+    mode: '0644'
+  with_items: "{{ nginx_vhosts }}" # A partir de la liste dans "group_vars/ynov.yml"
+  when: nginx_vhosts is defined # Uniquement si on a défini des vhosts dans un fichier
+  notify: Restart nginx # Redémarre nginx car modification de la configuration d'Nginx

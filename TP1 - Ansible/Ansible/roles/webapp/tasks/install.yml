@@ -1,0 +1,4 @@
+- name: Installer NGINX
+  dnf:
+    name: nginx
+    state: latest

@@ -1,0 +1,5 @@
+# Valeur par défaut pour les 4 variables si rien n'est défini dans group_vars ou host_vars
+nginx_servername: default
+nginx_port: 8080
+nginx_webroot: /var/www/html/default
+nginx_index_content: "<h1>contenu par défaut</h1>"
