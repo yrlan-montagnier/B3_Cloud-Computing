@@ -1,0 +1,31 @@
+#cloud-config
+users:
+  - name: yrlan
+    gecos: Mon user SysAdmin
+    primary_group: yrlan
+    groups: wheel
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+    passwd: $6$cOD0tM4nQ8yArXhJ$S16wc3Of0G5uQqtBkVpXvEMg./qoozZzJNlnVoUWScf.iB36.aEgmXvLr9kAwLo/wqugE1tG6Wl6DF3AYUBsP1
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwM32JCKeM4NyDV/6UX/5ZpVI8wr2PMRWysrYNEyvF/5MeKTzfk3aWmHS/heG5wMRpAC/mhgYLyuCDMlJKHFQZ4fBs8eGmsN2gxQ/W2RM1k1Y3+nzpiQRqOEdss79+wPNl4K+pdNcnnTWwOuk9268IBeiO9nkqsdDBoB3iJBLa0cnyPdJsHpnRuiLP1XoR0GECWjspGi7qD3lqs0Cw05jhB4EYY6N2V5hd1XahYHdh6dMRORp3CI7FZ/LxbzsA9LN5E2elv2VitkL4pS7yKOiupvkF7ybADpcLi4waT55AClrhgoeRgVpG2VVvZkr/BtLt6ZU9uyzoofQdKl21IuZ0FyofdMeU9q6AUwmZuZJwQ6e9D+LvrVNVu2Bm3OU1P1Q/VnJcRK9/92SyMjoh7oOOJhpxnzpDQ+8BmV4tQXxLklYZHdgRA05B7aH6NQBa6CzrP5sDreQAIiiWsHELcfyVPSa9bnhf7XMBkrQwzyeE+2Rv/X4Pb5Ox1zyUs0+O92zVC6z9i4pKQXpoHc27VhNK67NvIHKWN+bmgCA9oW5H5F6LKb48S05cLAXfkwURLZMN61JO8qNNok9k3y2Hl63isTeM4CASVpCKnIaEB2kdGW2ykUpxNFV3eCT3of8jTNRtq3LSi562KaOOJNWP1Uogw5NJtbZwCAab5jF2+EUHQQ== yrlan@MSI-9SEXR
+  - name: vagrant
+    gecos: deployed by cloud-init
+    primary_group: vagrant
+    groups: wheel
+    shell: /bin/bash
+    lock_passwd: false
+    passwd: $6$LU7Z/9G5BeuNmzJR$UIZDBNF6G3sv15mBmZz6cXukBZOllPmvO44ZCB6g6w862pnNaOsjwxhzUTZIjIOU5/YZetkc8yMXN5dth37aN1
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+  - name: ansible
+    gecos: Ansible User
+    groups: users,wheel
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwM32JCKeM4NyDV/6UX/5ZpVI8wr2PMRWysrYNEyvF/5MeKTzfk3aWmHS/heG5wMRpAC/mhgYLyuCDMlJKHFQZ4fBs8eGmsN2gxQ/W2RM1k1Y3+nzpiQRqOEdss79+wPNl4K+pdNcnnTWwOuk9268IBeiO9nkqsdDBoB3iJBLa0cnyPdJsHpnRuiLP1XoR0GECWjspGi7qD3lqs0Cw05jhB4EYY6N2V5hd1XahYHdh6dMRORp3CI7FZ/LxbzsA9LN5E2elv2VitkL4pS7yKOiupvkF7ybADpcLi4waT55AClrhgoeRgVpG2VVvZkr/BtLt6ZU9uyzoofQdKl21IuZ0FyofdMeU9q6AUwmZuZJwQ6e9D+LvrVNVu2Bm3OU1P1Q/VnJcRK9/92SyMjoh7oOOJhpxnzpDQ+8BmV4tQXxLklYZHdgRA05B7aH6NQBa6CzrP5sDreQAIiiWsHELcfyVPSa9bnhf7XMBkrQwzyeE+2Rv/X4Pb5Ox1zyUs0+O92zVC6z9i4pKQXpoHc27VhNK67NvIHKWN+bmgCA9oW5H5F6LKb48S05cLAXfkwURLZMN61JO8qNNok9k3y2Hl63isTeM4CASVpCKnIaEB2kdGW2ykUpxNFV3eCT3of8jTNRtq3LSi562KaOOJNWP1Uogw5NJtbZwCAab5jF2+EUHQQ== yrlan@MSI-9SEXR
+ansible:
+  install_method: pip
